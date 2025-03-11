@@ -1,33 +1,8 @@
 document.getElementById('fileInput').addEventListener('change', handleFileSelect);
 document.getElementById('uploadForm').addEventListener('submit', handleFormSubmit);
 
-const dropZone = document.getElementById('dropZone');
-dropZone.addEventListener('dragover', (e) => {
-  e.preventDefault();
-  dropZone.classList.add('highlight');
-});
-
-dropZone.addEventListener('dragleave', () => {
-  dropZone.classList.remove('highlight');
-});
-
-dropZone.addEventListener('drop', (e) => {
-  e.preventDefault();
-  dropZone.classList.remove('highlight');
-  handleFileDrop(e);
-});
-
 function handleFileSelect(event) {
   const files = event.target.files;
-  displaySelectedFiles(files);
-}
-
-function handleFileDrop(event) {
-  const files = event.dataTransfer.files;
-  displaySelectedFiles(files);
-}
-
-function displaySelectedFiles(files) {
   const imageContainer = document.getElementById('imageContainer');
   imageContainer.innerHTML = '';
 

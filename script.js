@@ -1,8 +1,33 @@
 document.getElementById('fileInput').addEventListener('change', handleFileSelect);
 document.getElementById('uploadForm').addEventListener('submit', handleFormSubmit);
 
+const dropZone = document.getElementById('dropZone');
+dropZone.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  dropZone.classList.add('highlight');
+});
+
+dropZone.addEventListener('dragleave', () => {
+  dropZone.classList.remove('highlight');
+});
+
+dropZone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  dropZone.classList.remove('highlight');
+  handleFileDrop(e);
+});
+
 function handleFileSelect(event) {
   const files = event.target.files;
+  displaySelectedFiles(files);
+}
+
+function handleFileDrop(event) {
+  const files = event.dataTransfer.files;
+  displaySelectedFiles(files);
+}
+
+function displaySelectedFiles(files) {
   const imageContainer = document.getElementById('imageContainer');
   imageContainer.innerHTML = '';
 
@@ -58,13 +83,27 @@ function handleFormSubmit(event) {
   event.preventDefault();
   
   const files = document.getElementById('fileInput').files;
+  const pdfSize = document.getElementById('pdfSize').value;
+  
   if (files.length === 0) {
     alert('Please select image files.');
     return;
   }
 
   const { jsPDF } = window.jspdf;
-  const pdfDoc = new jsPDF();
+  
+  const pdfOptions = {
+    a4: [210, 297],
+    letter: [216, 279],
+    legal: [216, 356]
+  };
+  
+  const pdfDoc = new jsPDF({
+    orientation: 'portrait',
+    unit: 'mm',
+    format: pdfOptions[pdfSize]
+  });
+
   let imageCount = 0;
 
   Array.from(files).forEach(file => {

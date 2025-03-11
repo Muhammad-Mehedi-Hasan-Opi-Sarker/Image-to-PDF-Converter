@@ -3,20 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Image to PDF Converter</title>
+  <title>Toy Pdf</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Image to PDF Converter</h1>
-  <form id="uploadForm">
-    <label for="fileInput">Choose image files:</label>
-    <input type="file" id="fileInput" name="files" accept="image/*" multiple required>
-    <button type="submit">Convert to PDF</button>
-  </form>
-  <a id="downloadLink" style="display:none;">Download PDF</a>
-
-  <!-- jsPDF লাইব্রেরি যুক্ত করা হচ্ছে -->
+  <header>
+    <div class="logo">
+      <svg width="50" height="50" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <rect width="100" height="100" fill="#4CAF50"/>
+        <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="20" font-family="Arial">Toy Pdf</text>
+      </svg>
+      <h1>Toy Pdf</h1>
+    </div>
+  </header>
+  <main>
+    <h2>Image to PDF Converter</h2>
+    <form id="uploadForm">
+      <label for="fileInput">Choose image files:</label>
+      <input type="file" id="fileInput" name="files" accept="image/*" multiple required>
+      <button type="submit">Convert to PDF</button>
+    </form>
+    <div id="imageContainer"></div>
+    <a id="downloadLink" style="display:none;">Download PDF</a>
+  </main>
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <!-- আপনার কাস্টম JavaScript ফাইল -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

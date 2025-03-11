@@ -7,6 +7,7 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
     return;
   }
 
+  const { jsPDF } = window.jspdf; // jsPDF লাইব্রেরি থেকে jsPDF অবজেক্ট নিয়ে আসা
   const pdfDoc = new jsPDF();
   let imageCount = 0;
 

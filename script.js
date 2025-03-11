@@ -1,4 +1,60 @@
-document.getElementById('uploadForm').addEventListener('submit', function(event) {
+document.getElementById('fileInput').addEventListener('change', handleFileSelect);
+document.getElementById('uploadForm').addEventListener('submit', handleFormSubmit);
+
+function handleFileSelect(event) {
+  const files = event.target.files;
+  const imageContainer = document.getElementById('imageContainer');
+  imageContainer.innerHTML = '';
+
+  Array.from(files).forEach((file, index) => {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const div = document.createElement('div');
+      div.classList.add('image-item');
+      div.setAttribute('data-index', index);
+
+      const img = document.createElement('img');
+      img.src = e.target.result;
+
+      const removeBtn = document.createElement('button');
+      removeBtn.classList.add('remove-btn');
+      removeBtn.textContent = 'X';
+      removeBtn.addEventListener('click', () => {
+        div.remove();
+        updateFileInput();
+      });
+
+      div.appendChild(img);
+      div.appendChild(removeBtn);
+      imageContainer.appendChild(div);
+    };
+    reader.readAsDataURL(file);
+  });
+
+  new Sortable(imageContainer, {
+    animation: 150,
+    onEnd: () => {
+      updateFileInput();
+    }
+  });
+}
+
+function updateFileInput() {
+  const imageContainer = document.getElementById('imageContainer');
+  const orderedFiles = [];
+  const fileInput = document.getElementById('fileInput');
+  
+  Array.from(imageContainer.children).forEach((div) => {
+    const index = div.getAttribute('data-index');
+    orderedFiles.push(fileInput.files[index]);
+  });
+
+  const dataTransfer = new DataTransfer();
+  orderedFiles.forEach(file => dataTransfer.items.add(file));
+  fileInput.files = dataTransfer.files;
+}
+
+function handleFormSubmit(event) {
   event.preventDefault();
   
   const files = document.getElementById('fileInput').files;
@@ -7,7 +63,7 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
     return;
   }
 
-  const { jsPDF } = window.jspdf; // jsPDF লাইব্রেরি থেকে jsPDF অবজেক্ট নিয়ে আসা
+  const { jsPDF } = window.jspdf;
   const pdfDoc = new jsPDF();
   let imageCount = 0;
 
@@ -37,4 +93,4 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
     };
     reader.readAsDataURL(file);
   });
-});
+}
